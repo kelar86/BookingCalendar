@@ -1,9 +1,10 @@
 import React from 'react';
 
 const BookingSelectAdress = (props) => {
-    const docs = props.doctors;
-    const options = docs.map((doctor) => <option value={doctor}> {doctor} </option>);
-    return <select> {options} </select>;
+    const adress = props.availableAdress;
+    const onChange = (e) => props.onChange(e.target.value);  
+    const options = adress.map(adress => <option value={adress}> {adress} </option>);
+    return <select onChange={onChange}> {options} </select>;
 }
 
 export default BookingSelectAdress;

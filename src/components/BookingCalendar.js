@@ -15,38 +15,63 @@ class BookingCalendar extends Component {
       super(props)
       this.state = {
         selectedDate: moment(),
-        selectAdress: ['adress1', 'adress2'],
+        availableAdress: ['adress1', 'adress2'],
         slots: ["10:00", "10:15", "10:30", "10:45"],
-
+        
+        
+        selectedAdress: '',
+        selectedTime: '',
+        name: '', 
+        adress: '', 
+        email: '', 
+        tel: '+7'
       };
       this.handleChange = this.handleChange.bind(this);
-    }
+      this.onSelectAdress = this.onSelectAdress.bind(this);
+      this.onSelectTime = this.onSelectTime.bind(this);
+    };
   
     handleChange(date) {
       this.setState({
-        selectedDate: date
+        selectedDate: date,
       });      
     }
 
+    onSelectAdress(adress) {
+      this.setState({
+        selectedAdress: adress,
+      });
+    }
+    
+    onSelectTime(time) {
+      this.setState({
+        selectedTime: time,
+      });
+    }
+    
   
     render() {
       return <div>
         <p>Выберите адрес:</p>
-          <div><BookingSelectAdress doctors={this.state.selectAdress} /></div>
-        <p>Выберите дату и время:</p>  
-        <DatePicker           
-          inline="true"
-          selected={this.state.selectedDate}
-          onChange={this.handleChange}
-          locale="ru"
-        //   showTimeSelect
-        //   timeFormat="HH:mm"
-        //   timeIntervals={15}
+          <div><BookingSelectAdress 
+                  onChange={this.onSelectAdress} 
+                  availableAdress={this.state.availableAdress}/></div>
+        
+                <p>Выберите дату и время:</p>  
+                <DatePicker inline="true"
+                            selected={this.state.selectedDate}
+                            onChange={this.handleChange}
+                            locale="ru"
+                            //   showTimeSelect
+                            //   timeFormat="HH:mm"
+                            //   timeIntervals={15}
 
-      />
+                          />
       <div> Time 
           <div>
-            <BookingTime slots={this.state.slots} />
+            <BookingTime 
+              slots={this.state.slots}
+              onClick={this.onSelectTime} />
           </div>
         </div>
         <BookingForm />

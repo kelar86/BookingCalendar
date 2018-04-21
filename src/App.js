@@ -4,11 +4,8 @@ import './App.css';
 
 import BookingCalendar from './components/BookingCalendar';
 
-import { connect } from 'react-redux'
-
 class App extends Component {
   render() {
-    console.log(this.props.testStore);
     return (
       <div className="App">
 
@@ -20,9 +17,4 @@ class App extends Component {
   }
 }
 
-export default connect(
-  state => ({
-    testStore: state
-  }),
-  dispatch => ({})
-)(App);
+export default App
