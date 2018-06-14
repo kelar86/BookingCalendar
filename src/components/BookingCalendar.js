@@ -16,7 +16,8 @@ class BookingCalendar extends Component {
       this.state = {
         selectedDate: moment(),
         availableAdress: ['adress1', 'adress2'],
-        slots: ["10:00", "10:15", "10:30", "10:45"],
+        dateToBook: moment().format('YYYY-MM-D'),
+        slots: [''],
         
         
         selectedAdress: '',
@@ -30,11 +31,33 @@ class BookingCalendar extends Component {
       this.onSelectAdress = this.onSelectAdress.bind(this);
       this.onSelectTime = this.onSelectTime.bind(this);
     };
-  
+    
+    componentDidMount() {
+      // adressId = 1;
+      // date = this.state.dateToBook;
+      
+      fetch(`http://localhost:8080/wp-json/react-booking/v1/slots?doctorID=1&book_date=${this.state.dateToBook}`)
+          .then(response => response.json()
+          .then((data)=>{
+            
+            this.setState({
+              slots: data
+            });
+          }))
+          
+          .catch(alert)
+     
+      
+    }
+
     handleChange(date) {
       this.setState({
         selectedDate: date,
-      });      
+        dateToBook: date.format('YYYY-MM-D')
+      }); 
+      
+      
+      
     }
 
     onSelectAdress(adress) {

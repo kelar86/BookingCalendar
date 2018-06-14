@@ -3,8 +3,7 @@ import React from 'react';
 const BookingSelectAdress = (props) => {
     const adress = props.availableAdress;
     const onChange = (e) => props.onChange(e.target.value);  
-    const buttons = adress.map(adress => <button value={adress}> {adress} </button>);
-    return <div onClick={onChange}> {buttons} </div>;
+    return <div> {adress.map(adress => <button onClick={onChange} value={adress}> {adress} </button>)} </div>;
 }
 
 export default BookingSelectAdress;
