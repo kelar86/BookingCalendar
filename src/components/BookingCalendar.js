@@ -15,7 +15,7 @@ class BookingCalendar extends Component {
       super(props)
       this.state = {
         selectedDate: moment(),
-        availableAdress: ['adress1', 'adress2'],
+        availableAdress: [''],
         dateToBook: moment().format('YYYY-MM-D'),
         slots: [''],
         
@@ -39,14 +39,20 @@ class BookingCalendar extends Component {
       fetch(`http://localhost:8080/wp-json/react-booking/v1/slots?doctorID=1&book_date=${this.state.dateToBook}`)
           .then(response => response.json()
           .then((data)=>{
-            
             this.setState({
               slots: data
             });
-          }))
-          
+          })) 
           .catch(alert)
-     
+      
+      fetch(`http://localhost:8080/wp-json/react-booking/v1/adress`)
+          .then(response => response.json()
+          .then((data)=>{
+            this.setState({
+              availableAdress: data
+            });
+          })) 
+          .catch(alert)    
       
     }
 
