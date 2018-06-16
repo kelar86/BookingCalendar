@@ -33,17 +33,8 @@ class BookingCalendar extends Component {
     };
     
     componentDidMount() {
-      // adressId = 1;
+      const adressID = this.state.selectedAdressID ? this.state.selectedAdressID : 1;
       // date = this.state.dateToBook;
-      
-      fetch(`http://localhost:8080/wp-json/react-booking/v1/slots?doctorID=1&book_date=${this.state.dateToBook}`)
-          .then(response => response.json()
-          .then((data)=>{
-            this.setState({
-              slots: data
-            });
-          })) 
-          .catch(alert)
       
       fetch(`http://localhost:8080/wp-json/react-booking/v1/adress`)
           .then(response => response.json()
@@ -52,19 +43,28 @@ class BookingCalendar extends Component {
               availableAdress: data
             });
           })) 
+          .catch(alert)
+      
+      fetch(`http://localhost:8080/wp-json/react-booking/v1/slots?doctorID=1&book_date=${this.state.dateToBook}`)
+          .then(response => response.json()
+          .then((data)=>{
+            this.setState({
+            slots: data
+            });
+          })) 
           .catch(alert)    
       
     }
 
     handleChange(date) {
-
+      const adressID = this.state.selectedAdress ? this.state.selectedAdress : 1;
       const click_date = date.format('YYYY-MM-D')
       this.setState({
         selectedDate: date,
         dateToBook: date.format('YYYY-MM-D')
       }); 
 
-      fetch(`http://localhost:8080/wp-json/react-booking/v1/slots?doctorID=1&book_date=${click_date}`)
+      fetch(`http://localhost:8080/wp-json/react-booking/v1/slots?doctorID=${adressID}&book_date=${click_date}`)
       .then(response => response.json()
       .then((data)=>{
         this.setState({
@@ -75,9 +75,9 @@ class BookingCalendar extends Component {
       
     }
 
-    onSelectAdress(adress) {
+    onSelectAdress(adress_id) {  
       this.setState({
-        selectedAdress: adress,
+        selectedAdress: adress_id,
       });
     }
     
@@ -90,7 +90,6 @@ class BookingCalendar extends Component {
   
     render() {
       return <div>
-        <p>Выберите адрес:</p>
           <div><BookingSelectAdress 
                   onChange={this.onSelectAdress} 
                   availableAdress={this.state.availableAdress}/></div>
