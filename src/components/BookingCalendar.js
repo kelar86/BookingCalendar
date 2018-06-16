@@ -57,12 +57,21 @@ class BookingCalendar extends Component {
     }
 
     handleChange(date) {
+
+      const click_date = date.format('YYYY-MM-D')
       this.setState({
         selectedDate: date,
         dateToBook: date.format('YYYY-MM-D')
       }); 
-      
-      
+
+      fetch(`http://localhost:8080/wp-json/react-booking/v1/slots?doctorID=1&book_date=${click_date}`)
+      .then(response => response.json()
+      .then((data)=>{
+        this.setState({
+          slots: data
+        });
+      })) 
+      .catch(alert)
       
     }
 
