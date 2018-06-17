@@ -45,7 +45,7 @@ class BookingCalendar extends Component {
           })) 
           .catch(alert)
       
-      fetch(`http://localhost:8080/wp-json/react-booking/v1/slots?doctorID=1&book_date=${this.state.dateToBook}`)
+      fetch(`http://localhost:8080/wp-json/react-booking/v1/slots?doctorID=${adressID}&book_date=${this.state.dateToBook}`)
           .then(response => response.json()
           .then((data)=>{
             this.setState({
@@ -75,10 +75,17 @@ class BookingCalendar extends Component {
       
     }
 
-    onSelectAdress(adress_id) {  
-      this.setState({
-        selectedAdress: adress_id,
-      });
+    onSelectAdress(adress_id) { 
+      
+      fetch(`http://localhost:8080/wp-json/react-booking/v1/slots?doctorID=${adress_id}&book_date=${this.state.dateToBook}`)
+      .then(response => response.json()
+      .then((data)=>{
+        this.setState({
+          selectedAdress: adress_id,
+          slots: data
+        });
+      })) 
+      .catch(alert)   
     }
     
     onSelectTime(time) {
