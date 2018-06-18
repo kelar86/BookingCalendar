@@ -99,7 +99,8 @@ class BookingCalendar extends Component {
       return <div>
           <div><BookingSelectAdress 
                   onChange={this.onSelectAdress} 
-                  availableAdress={this.state.availableAdress}/></div>
+                  availableAdress={this.state.availableAdress} 
+                  checked={this.state.selectedAdress}/></div>
         
                 <p>Выберите дату и время:</p>  
                 <DatePicker inline="true"
@@ -111,13 +112,13 @@ class BookingCalendar extends Component {
                             //   timeIntervals={15}
 
                           />
-      <div> Time 
-          <div>
+    
             <BookingTime 
               slots={this.state.slots}
-              onClick={this.onSelectTime} />
-          </div>
-        </div>
+              onClick={this.onSelectTime}
+              checked={this.state.selectedTime} />
+        <p></p>
+        <p>Введите данные:</p>
         <BookingForm />
 
         </div>;
