@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import qs from 'qs';
 
 class BookingForm extends Component{
     constructor(props){
@@ -28,6 +29,10 @@ class BookingForm extends Component{
     
   
     handleSubmit(event) {
+      const params = qs.stringify({...this.state, ...this.props });
+      console.log(params);
+
+      fetch(`http://localhost:8080/wp-json/react-booking/v1/reserv?${params}`, {method: "POST"})
       alert('Text field value is: ' + this.state.value);
     }
   

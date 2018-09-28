@@ -10,7 +10,7 @@ const BookingTime = (props) => {
             'btn-secondary': true,
             'active': slot === props.checked
         });
-        return <button onClick={onClick} className={btnClass} key={index} value={slot}> {slot} </button>
+        return <button onClick={onClick} className={btnClass} key={index} value={slot}> {slot.slice(0, 5)} </button>
     });
     return <div>
               <p> Выберите время: </p>

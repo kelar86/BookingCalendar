@@ -8,7 +8,6 @@ const BookingSelectAdress = (props) => {
         const btnClass = cn({
                 'btn': true,
                 'btn-secondary': true,
-                'active': adress.id_adress === props.checked
             });
         return <button className={btnClass} onClick={onChange} key={index} value={adress.id_adress}> {adress.adress} </button>;        
      });

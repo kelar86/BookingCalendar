@@ -90,7 +90,7 @@ class BookingCalendar extends Component {
     
     onSelectTime(time) {
       this.setState({
-        selectedTime: time,
+        selectedTime: time
       });
     }
     
@@ -116,10 +116,14 @@ class BookingCalendar extends Component {
             <BookingTime 
               slots={this.state.slots}
               onClick={this.onSelectTime}
-              checked={this.state.selectedTime} />
+              checked={this.state.selectedTime}
+               />
         <p></p>
         <p>Введите данные:</p>
-        <BookingForm />
+        <BookingForm
+          dateToBook={this.state.dateToBook}
+          selectedAdress={this.state.selectedAdress}
+          selectedTime={this.state.selectedTime} />
 
         </div>;
     }
