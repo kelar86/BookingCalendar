@@ -1,4 +1,3 @@
-
 import React, { Component } from 'react';
 import DatePicker from 'react-datepicker';
 import BookingTime from './BookingTime';
@@ -16,25 +15,20 @@ class BookingCalendar extends Component {
       this.state = {
         selectedDate: moment(),
         availableAdress: [''],
+        availableDates: [''],
         dateToBook: moment().format('YYYY-MM-D'),
         slots: [''],
-        
-        
         selectedAdress: '',
-        selectedTime: '',
-        name: '', 
-        adress: '', 
-        email: '', 
-        tel: '+7'
+        selectedTime: ''
       };
-      this.handleChange = this.handleChange.bind(this);
+      this.onSelectDate = this.onSelectDate.bind(this);
       this.onSelectAdress = this.onSelectAdress.bind(this);
       this.onSelectTime = this.onSelectTime.bind(this);
     };
     
+
     componentDidMount() {
       const adressID = this.state.selectedAdressID ? this.state.selectedAdressID : 1;
-      // date = this.state.dateToBook;
       
       fetch(`http://localhost:8080/wp-json/react-booking/v1/adress`)
           .then(response => response.json()
@@ -45,6 +39,19 @@ class BookingCalendar extends Component {
           })) 
           .catch(alert)
       
+      fetch(`http://localhost:8080/wp-json/react-booking/v1/dates?doctorID=${adressID}`)
+          .then(response => response.json()
+          .then((data)=>{
+              const dates = data.map(value => moment(value));
+              this.setState({
+                availableDates: dates,
+                selectedDate: dates[0],
+                dateToBook: dates[0] ? dates[0].format('YYYY-MM-DD') : moment().format('YYYY-MM-D')
+              });
+            }))
+            .catch(alert)
+          
+      
       fetch(`http://localhost:8080/wp-json/react-booking/v1/slots?doctorID=${adressID}&book_date=${this.state.dateToBook}`)
           .then(response => response.json()
           .then((data)=>{
@@ -53,10 +60,15 @@ class BookingCalendar extends Component {
             });
           })) 
           .catch(alert)    
-      
     }
 
-    handleChange(date) {
+    onSelectTime(time) {
+      this.setState({
+        selectedTime: time
+      });
+    }
+
+    onSelectDate(date) {
       const adressID = this.state.selectedAdress ? this.state.selectedAdress : 1;
       const click_date = date.format('YYYY-MM-D')
       this.setState({
@@ -76,7 +88,6 @@ class BookingCalendar extends Component {
     }
 
     onSelectAdress(adress_id) { 
-      
       fetch(`http://localhost:8080/wp-json/react-booking/v1/slots?doctorID=${adress_id}&book_date=${this.state.dateToBook}`)
       .then(response => response.json()
       .then((data)=>{
@@ -85,16 +96,22 @@ class BookingCalendar extends Component {
           slots: data
         });
       })) 
-      .catch(alert)   
+      .catch(alert)
+
+      fetch(`http://localhost:8080/wp-json/react-booking/v1/dates?doctorID=${adress_id}`)
+      .then(response => response.json()
+      .then((data)=>{
+          const dates = data.map(value => moment(value));
+          this.setState({
+            availableDates: dates,
+            selectedDate: dates[0],
+            dateToBook: dates[0] ? dates[0].format('YYYY-MM-DD') : moment().format('YYYY-MM-D')
+          });
+        }))
+        .catch(alert) 
     }
     
-    onSelectTime(time) {
-      this.setState({
-        selectedTime: time
-      });
-    }
     
-  
     render() {
       return <div>
           <div><BookingSelectAdress 
@@ -103,14 +120,15 @@ class BookingCalendar extends Component {
                   checked={this.state.selectedAdress}/></div>
         
                 <p>Выберите дату и время:</p>  
-                <DatePicker inline="true"
+                <DatePicker inline={true}
                             selected={this.state.selectedDate}
-                            onChange={this.handleChange}
+                            onChange={this.onSelectDate}
                             locale="ru"
-                            //   showTimeSelect
-                            //   timeFormat="HH:mm"
-                            //   timeIntervals={15}
-
+                            // minDate={this.state.availableDates[0]}
+                            // maxDate={this.state.availableDates[3]}
+                            disabledKeyboardNavigation
+                            includeDates={this.state.availableDates}
+                          
                           />
     
             <BookingTime 

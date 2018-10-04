@@ -5,7 +5,7 @@ class BookingForm extends Component{
     constructor(props){
       super(props);
       this.state = {name: '', adress: '', email: '', tel: '+7' };
-      
+      this.props = props;
       this.onFioChange = this.onFioChange.bind(this);
       this.onAdressChange = this.onAdressChange.bind(this);
       this.onEmailChange = this.onEmailChange.bind(this);
@@ -31,9 +31,7 @@ class BookingForm extends Component{
     handleSubmit(event) {
       const params = qs.stringify({...this.state, ...this.props });
       console.log(params);
-
       fetch(`http://localhost:8080/wp-json/react-booking/v1/reserv?${params}`, {method: "POST"})
-      alert('Text field value is: ' + this.state.value);
     }
   
     render(){

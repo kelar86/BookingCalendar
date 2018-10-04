@@ -15,7 +15,7 @@ const BookingTime = (props) => {
     return <div>
               <p> Выберите время: </p>
                 { buttons }
-            </div>
+           </div>
 }
 
 export default BookingTime;
